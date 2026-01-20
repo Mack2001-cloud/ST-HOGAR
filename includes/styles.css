@@ -50,6 +50,10 @@ input{
   width:100%; padding:10px; margin:6px 0 12px 0;
   border:1px solid #bbb; border-radius:6px; font-size:14px;
 }
+input[aria-invalid="true"]{
+  border-color:#d26969;
+  background:#fff7f7;
+}
 label{ font-weight:bold; display:block; margin-top:8px; }
 
 .btn{
