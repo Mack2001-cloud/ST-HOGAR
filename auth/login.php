@@ -17,18 +17,31 @@ if ($err === 3) $msg = "Contraseña incorrecta.";
 <body class="center">
 
 <div class="card login">
-  <h2>Iniciar sesión</h2>
+  <div class="login-header">
+    <h2>Bienvenido a <?php echo htmlspecialchars(APP_NAME); ?></h2>
+    <p class="login-company">
+      <strong><?php echo htmlspecialchars(COMPANY_NAME); ?></strong><br>
+      <?php echo htmlspecialchars(COMPANY_ADDRESS); ?><br>
+      <?php echo htmlspecialchars(COMPANY_PHONE); ?> · <?php echo htmlspecialchars(COMPANY_EMAIL); ?>
+    </p>
+  </div>
+
+  <h3>Iniciar sesión</h3>
 
   <?php if ($msg): ?>
     <div class="msg err"><?php echo htmlspecialchars($msg); ?></div>
   <?php endif; ?>
 
   <form method="POST" action="validar_login.php">
-    <label>Usuario</label>
-    <input type="text" name="usuario" required>
+    <div class="form-field">
+      <label>Usuario</label>
+      <input type="text" name="usuario" required>
+    </div>
 
-    <label>Contraseña</label>
-    <input type="password" name="password" required>
+    <div class="form-field">
+      <label>Contraseña</label>
+      <input type="password" name="password" required>
+    </div>
 
     <button class="btn" type="submit">Ingresar</button>
   </form>
@@ -36,4 +49,3 @@ if ($err === 3) $msg = "Contraseña incorrecta.";
 
 </body>
 </html>
-
