@@ -1,9 +1,23 @@
-body { margin:0; font-family: Arial, sans-serif; background:#f3f5f7; }
+:root{
+  --brand:#1f5a85;
+  --brand-strong:#174567;
+  --surface:#fff;
+  --surface-alt:#f3f5f7;
+  --border:#ddd;
+  --text:#1c232b;
+  --muted:#5f6b78;
+  --success-bg:#e9fff0;
+  --success-border:#9be0b1;
+  --error-bg:#ffecec;
+  --error-border:#f2a6a6;
+  --focus:#2b7fc1;
+}
+body { margin:0; font-family: Arial, sans-serif; background:var(--surface-alt); color:var(--text); }
 a { text-decoration:none; color:inherit; }
-.center { display:flex; justify-content:center; align-items:center; height:100vh; }
+.center { display:flex; justify-content:center; align-items:center; min-height:100vh; padding:24px; }
 
 .topbar{
-  background:#1f5a85; color:#fff; padding:12px 16px;
+  background:var(--brand); color:#fff; padding:12px 16px;
   display:flex; justify-content:space-between; align-items:center;
 }
 .brand{ font-weight:bold; }
@@ -11,40 +25,90 @@ a { text-decoration:none; color:inherit; }
 
 .layout{ display:flex; }
 .sidebar{
-  width:200px; background:#fff; border-right:1px solid #ddd;
+  width:220px; background:var(--surface); border-right:1px solid var(--border);
   min-height:calc(100vh - 48px);
   padding:10px;
 }
+.sidebar ul{ list-style:none; padding:0; margin:0; }
+.sidebar li{ margin-bottom:6px; }
 .sidebar a{
-  display:block; padding:10px; border-radius:8px; margin-bottom:6px;
+  display:block; padding:10px; border-radius:8px; color:var(--text);
 }
 .sidebar a:hover{ background:#eef3f8; }
+.sidebar a.active{
+  background:#e3f0fb; color:var(--brand-strong); font-weight:bold;
+}
 
 .main{ flex:1; padding:20px; }
 .card{
-  background:#fff; border:1px solid #ddd; border-radius:10px;
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
   padding:16px; margin-bottom:16px;
 }
-.login{ width:360px; }
+.login{ width:min(420px, 100%); }
 
 input{
   width:100%; padding:10px; margin:6px 0 12px 0;
-  border:1px solid #bbb; border-radius:6px;
+  border:1px solid #bbb; border-radius:6px; font-size:14px;
 }
 label{ font-weight:bold; display:block; margin-top:8px; }
 
 .btn{
-  background:#1f5a85; color:#fff; border:none; padding:10px 14px;
+  background:var(--brand); color:#fff; border:none; padding:10px 14px;
   border-radius:8px; cursor:pointer;
 }
+.btn:hover{ background:var(--brand-strong); }
 .btn2{
-  background:#fff; border:1px solid #1f5a85; color:#1f5a85;
+  background:#fff; border:1px solid var(--brand); color:var(--brand);
   padding:10px 14px; border-radius:8px; display:inline-block;
 }
+.btn.ghost{
+  background:#fff; border:1px solid var(--border); color:var(--muted);
+  padding:8px 12px; font-size:12px;
+}
+.btn.ghost:hover{ background:#f5f7fa; color:var(--text); }
 .msg{ padding:10px; border-radius:8px; margin:10px 0; }
-.msg.ok{ background:#e9fff0; border:1px solid #9be0b1; }
-.msg.err{ background:#ffecec; border:1px solid #f2a6a6; }
+.msg.ok{ background:var(--success-bg); border:1px solid var(--success-border); color:#1d6b3c; }
+.msg.err{ background:var(--error-bg); border:1px solid var(--error-border); color:#8c2c2c; }
 
-table{ width:100%; border-collapse:collapse; background:#fff; border:1px solid #ddd; }
+table{ width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--border); }
 th,td{ padding:10px; border-bottom:1px solid #eee; text-align:left; }
 thead{ background:#f2f6fa; }
+
+.input-group{
+  display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap;
+}
+.input-group input{
+  margin:6px 0 0 0;
+}
+.input-group .btn.ghost{
+  white-space:nowrap;
+}
+
+input:focus-visible,
+button:focus-visible,
+a:focus-visible{
+  outline:2px solid var(--focus);
+  outline-offset:2px;
+}
+
+@media (max-width: 900px){
+  .layout{ flex-direction:column; }
+  .sidebar{
+    width:100%;
+    min-height:auto;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+  .main{ padding:16px; }
+  .topbar{ flex-direction:column; gap:6px; align-items:flex-start; }
+}
+
+@media (max-width: 520px){
+  .input-group{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .input-group .btn.ghost{
+    width:100%;
+  }
+}

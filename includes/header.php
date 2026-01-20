@@ -5,6 +5,7 @@ require_once __DIR__ . "/../config/app.php";
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ST-Hogar</title>
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>/includes/styles.css">
 </head>
