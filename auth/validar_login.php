@@ -28,6 +28,7 @@ if (!password_verify($password, $u["password_hash"])) {
   exit;
 }
 
+session_regenerate_id(true);
 $_SESSION["id_usuario"] = (int)$u["id_usuario"];
 $_SESSION["nombre"]    = $u["nombre"];
 $_SESSION["rol"]       = $u["rol"];
