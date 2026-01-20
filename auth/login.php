@@ -11,6 +11,7 @@ if ($err === 3) $msg = "Contraseña incorrecta.";
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login - ST-Hogar</title>
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>/includes/styles.css">
 </head>
@@ -24,15 +25,30 @@ if ($err === 3) $msg = "Contraseña incorrecta.";
   <?php endif; ?>
 
   <form method="POST" action="validar_login.php">
-    <label>Usuario</label>
-    <input type="text" name="usuario" required>
+    <label for="usuario">Usuario</label>
+    <input id="usuario" type="text" name="usuario" autocomplete="username" required>
 
-    <label>Contraseña</label>
-    <input type="password" name="password" required>
+    <label for="password">Contraseña</label>
+    <div class="input-group">
+      <input id="password" type="password" name="password" autocomplete="current-password" required>
+      <button class="btn ghost" type="button" id="toggle-password" aria-label="Mostrar u ocultar contraseña">
+        Mostrar
+      </button>
+    </div>
 
     <button class="btn" type="submit">Ingresar</button>
   </form>
 </div>
+
+<script>
+  const toggleButton = document.getElementById("toggle-password");
+  const passwordInput = document.getElementById("password");
+  toggleButton.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password";
+    passwordInput.type = isPassword ? "text" : "password";
+    toggleButton.textContent = isPassword ? "Ocultar" : "Mostrar";
+  });
+</script>
 
 </body>
 </html>
