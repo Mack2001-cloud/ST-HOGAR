@@ -20,7 +20,7 @@ if ($err === 2 || $err === 3) $msg = "Usuario o contraseña incorrectos.";
   <h2>Iniciar sesión</h2>
 
   <?php if ($msg): ?>
-    <div class="msg err" role="alert" aria-live="polite"><?php echo htmlspecialchars($msg); ?></div>
+    <div id="login-error" class="msg err" role="alert" aria-live="polite"><?php echo htmlspecialchars($msg); ?></div>
   <?php endif; ?>
 
   <form method="POST" action="validar_login.php">
@@ -32,6 +32,9 @@ if ($err === 2 || $err === 3) $msg = "Usuario o contraseña incorrectos.";
       autocomplete="username"
       required
       aria-invalid="<?php echo $err ? "true" : "false"; ?>"
+      <?php if ($err): ?>
+        aria-describedby="login-error"
+      <?php endif; ?>
     >
 
     <label for="password">Contraseña</label>
@@ -43,8 +46,18 @@ if ($err === 2 || $err === 3) $msg = "Usuario o contraseña incorrectos.";
         autocomplete="current-password"
         required
         aria-invalid="<?php echo $err ? "true" : "false"; ?>"
+        <?php if ($err): ?>
+          aria-describedby="login-error"
+        <?php endif; ?>
       >
-      <button class="btn ghost" type="button" id="toggle-password" aria-label="Mostrar u ocultar contraseña">
+      <button
+        class="btn ghost"
+        type="button"
+        id="toggle-password"
+        aria-controls="password"
+        aria-pressed="false"
+        aria-label="Mostrar contraseña"
+      >
         Mostrar
       </button>
     </div>
@@ -60,6 +73,8 @@ if ($err === 2 || $err === 3) $msg = "Usuario o contraseña incorrectos.";
     const isPassword = passwordInput.type === "password";
     passwordInput.type = isPassword ? "text" : "password";
     toggleButton.textContent = isPassword ? "Ocultar" : "Mostrar";
+    toggleButton.setAttribute("aria-pressed", isPassword ? "true" : "false");
+    toggleButton.setAttribute("aria-label", isPassword ? "Ocultar contraseña" : "Mostrar contraseña");
   });
 </script>
 
