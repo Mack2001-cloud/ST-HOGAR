@@ -9,10 +9,10 @@ $q = trim($_GET["q"] ?? "");
 if ($q !== "") {
   $stmt = $conexion->prepare("SELECT * FROM clientes
     WHERE activo=1 AND (nombre LIKE :q OR telefono LIKE :q OR email LIKE :q)
-    ORDER BY id_cliente DESC");
+    ORDER BY nombre ASC, id_cliente DESC");
   $stmt->execute([":q" => "%$q%"]);
 } else {
-  $stmt = $conexion->query("SELECT * FROM clientes WHERE activo=1 ORDER BY id_cliente DESC");
+  $stmt = $conexion->query("SELECT * FROM clientes WHERE activo=1 ORDER BY nombre ASC, id_cliente DESC");
 }
 $clientes = $stmt->fetchAll();
 
