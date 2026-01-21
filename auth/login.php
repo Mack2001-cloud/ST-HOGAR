@@ -41,7 +41,7 @@ if ($err === 3) $msg = "Contraseña incorrecta.";
     <div class="msg err"><?php echo htmlspecialchars($msg); ?></div>
   <?php endif; ?>
 
-  <form method="POST" action="validar_login.php">
+  <form method="POST" action="validar_login.php" class="form">
     <div class="form-field">
       <label>Usuario</label>
       <input type="text" name="usuario" required>

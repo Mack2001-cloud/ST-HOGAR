@@ -32,55 +32,63 @@ $err = $_GET["err"] ?? "";
   <?php if ($ok): ?><div class="msg ok"><?php echo htmlspecialchars($ok); ?></div><?php endif; ?>
   <?php if ($err): ?><div class="msg err"><?php echo htmlspecialchars($err); ?></div><?php endif; ?>
 
-  <form method="GET" style="display:flex;gap:10px;align-items:end;">
-    <div style="flex:1;">
+  <form method="GET" class="form form--filters">
+    <div class="form-field grow">
       <label>Buscar (cliente, marca, modelo, serie)</label>
       <input type="text" name="q" value="<?php echo htmlspecialchars($q); ?>">
     </div>
-    <button class="btn" type="submit">Buscar</button>
-    <a class="btn2" href="crear.php">+ Nuevo</a>
+    <div class="form-actions">
+      <button class="btn" type="submit">Buscar</button>
+      <a class="btn2" href="crear.php">+ Nuevo</a>
+    </div>
   </form>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Cliente</th>
-      <th>Categoría</th>
-      <th>Marca</th>
-      <th>Modelo</th>
-      <th>Serie</th>
-      <th>Ubicación</th>
-      <th>Instalación</th>
-      <th>Estado</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-  <?php foreach ($equipos as $e): ?>
-    <tr>
-      <td><?php echo (int)$e["id_equipo"]; ?></td>
-      <td><?php echo htmlspecialchars($e["cliente"]); ?></td>
-      <td><?php echo htmlspecialchars($e["categoria"]); ?></td>
-      <td><?php echo htmlspecialchars($e["marca"]); ?></td>
-      <td><?php echo htmlspecialchars($e["modelo"]); ?></td>
-      <td><?php echo htmlspecialchars($e["num_serie"]); ?></td>
-      <td><?php echo htmlspecialchars($e["ubicacion"] ?? ""); ?></td>
-      <td><?php echo htmlspecialchars($e["fecha_instalacion"]); ?></td>
-      <td><?php echo htmlspecialchars($e["estado"]); ?></td>
-      <td>
-        <a href="editar.php?id=<?php echo (int)$e["id_equipo"]; ?>">Editar</a>
-        | <a href="eliminar.php?id=<?php echo (int)$e["id_equipo"]; ?>"
-             onclick="return confirm('¿Eliminar equipo?');">Eliminar</a>
-      </td>
-    </tr>
-  <?php endforeach; ?>
+<div class="table-card">
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Categoría</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Serie</th>
+          <th>Ubicación</th>
+          <th>Instalación</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php foreach ($equipos as $e): ?>
+        <tr>
+          <td><?php echo (int)$e["id_equipo"]; ?></td>
+          <td><?php echo htmlspecialchars($e["cliente"]); ?></td>
+          <td><?php echo htmlspecialchars($e["categoria"]); ?></td>
+          <td><?php echo htmlspecialchars($e["marca"]); ?></td>
+          <td><?php echo htmlspecialchars($e["modelo"]); ?></td>
+          <td><?php echo htmlspecialchars($e["num_serie"]); ?></td>
+          <td><?php echo htmlspecialchars($e["ubicacion"] ?? ""); ?></td>
+          <td><?php echo htmlspecialchars($e["fecha_instalacion"]); ?></td>
+          <td><?php echo htmlspecialchars($e["estado"]); ?></td>
+          <td>
+            <div class="table-actions">
+              <a href="editar.php?id=<?php echo (int)$e["id_equipo"]; ?>">Editar</a>
+              <a href="eliminar.php?id=<?php echo (int)$e["id_equipo"]; ?>"
+                 onclick="return confirm('¿Eliminar equipo?');">Eliminar</a>
+            </div>
+          </td>
+        </tr>
+      <?php endforeach; ?>
 
-  <?php if (count($equipos)===0): ?>
-    <tr><td colspan="10">Sin registros.</td></tr>
-  <?php endif; ?>
-  </tbody>
-</table>
+      <?php if (count($equipos)===0): ?>
+        <tr><td colspan="10">Sin registros.</td></tr>
+      <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <?php require_once __DIR__ . "/../includes/footer.php"; ?>
