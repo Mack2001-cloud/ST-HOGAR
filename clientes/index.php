@@ -25,42 +25,50 @@ $err = $_GET["err"] ?? "";
   <?php if ($ok): ?><div class="msg ok"><?php echo htmlspecialchars($ok); ?></div><?php endif; ?>
   <?php if ($err): ?><div class="msg err"><?php echo htmlspecialchars($err); ?></div><?php endif; ?>
 
-  <form method="GET" style="display:flex;gap:10px;align-items:end;">
-    <div style="flex:1;">
+  <form method="GET" class="form form--filters">
+    <div class="form-field grow">
       <label>Buscar</label>
       <input type="text" name="q" value="<?php echo htmlspecialchars($q); ?>">
     </div>
-    <button class="btn" type="submit">Buscar</button>
-    <a class="btn2" href="crear.php">+ Nuevo</a>
+    <div class="form-actions">
+      <button class="btn" type="submit">Buscar</button>
+      <a class="btn2" href="crear.php">+ Nuevo</a>
+    </div>
   </form>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Dirección</th><th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach ($clientes as $c): ?>
-      <tr>
-        <td><?php echo (int)$c["id_cliente"]; ?></td>
-        <td><?php echo htmlspecialchars($c["nombre"]); ?></td>
-        <td><?php echo htmlspecialchars($c["telefono"]); ?></td>
-        <td><?php echo htmlspecialchars($c["email"] ?? ""); ?></td>
-        <td><?php echo htmlspecialchars($c["direccion"] ?? ""); ?></td>
-        <td>
-          <a href="editar.php?id=<?php echo (int)$c["id_cliente"]; ?>">Editar</a> |
-          <a href="eliminar.php?id=<?php echo (int)$c["id_cliente"]; ?>"
-             onclick="return confirm('¿Dar de baja este cliente?');">Baja</a>
-        </td>
-      </tr>
-    <?php endforeach; ?>
+<div class="table-card">
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Dirección</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($clientes as $c): ?>
+          <tr>
+            <td><?php echo (int)$c["id_cliente"]; ?></td>
+            <td><?php echo htmlspecialchars($c["nombre"]); ?></td>
+            <td><?php echo htmlspecialchars($c["telefono"]); ?></td>
+            <td><?php echo htmlspecialchars($c["email"] ?? ""); ?></td>
+            <td><?php echo htmlspecialchars($c["direccion"] ?? ""); ?></td>
+            <td>
+              <div class="table-actions">
+                <a href="editar.php?id=<?php echo (int)$c["id_cliente"]; ?>">Editar</a>
+                <a href="eliminar.php?id=<?php echo (int)$c["id_cliente"]; ?>"
+                   onclick="return confirm('¿Dar de baja este cliente?');">Baja</a>
+              </div>
+            </td>
+          </tr>
+        <?php endforeach; ?>
 
-    <?php if (count($clientes) === 0): ?>
-      <tr><td colspan="6">Sin registros.</td></tr>
-    <?php endif; ?>
-  </tbody>
-</table>
+        <?php if (count($clientes) === 0): ?>
+          <tr><td colspan="6">Sin registros.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <?php require_once __DIR__ . "/../includes/footer.php"; ?>

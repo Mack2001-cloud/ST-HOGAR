@@ -49,6 +49,12 @@ $err = $_GET["err"] ?? "";
 
 $tipos = ["CCTV","Automatizacion","POS","Redes","Otro"];
 $estados = ["pendiente","en_proceso","finalizado","cancelado"];
+$estadoStyles = [
+  "pendiente" => ["Pendiente", "badge--pending"],
+  "en_proceso" => ["En proceso", "badge--progress"],
+  "finalizado" => ["Finalizado", "badge--success"],
+  "cancelado" => ["Cancelado", "badge--danger"],
+];
 ?>
 <div class="card">
   <h2>Servicios</h2>
@@ -56,13 +62,13 @@ $estados = ["pendiente","en_proceso","finalizado","cancelado"];
   <?php if ($ok): ?><div class="msg ok"><?php echo htmlspecialchars($ok); ?></div><?php endif; ?>
   <?php if ($err): ?><div class="msg err"><?php echo htmlspecialchars($err); ?></div><?php endif; ?>
 
-  <form method="GET" style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;">
-    <div style="flex:1;min-width:260px;">
+  <form method="GET" class="form form--filters">
+    <div class="form-field grow">
       <label>Buscar (cliente o descripción)</label>
       <input type="text" name="q" value="<?php echo htmlspecialchars($q); ?>">
     </div>
 
-    <div style="min-width:200px;">
+    <div class="form-field">
       <label>Tipo</label>
       <select name="tipo">
         <option value="">(Todos)</option>
@@ -74,7 +80,7 @@ $estados = ["pendiente","en_proceso","finalizado","cancelado"];
       </select>
     </div>
 
-    <div style="min-width:200px;">
+    <div class="form-field">
       <label>Estado</label>
       <select name="estado">
         <option value="">(Todos)</option>
@@ -86,61 +92,71 @@ $estados = ["pendiente","en_proceso","finalizado","cancelado"];
       </select>
     </div>
 
-    <div style="min-width:170px;">
+    <div class="form-field">
       <label>Desde</label>
       <input type="date" name="desde" value="<?php echo htmlspecialchars($desde); ?>">
     </div>
 
-    <div style="min-width:170px;">
+    <div class="form-field">
       <label>Hasta</label>
       <input type="date" name="hasta" value="<?php echo htmlspecialchars($hasta); ?>">
     </div>
 
-    <button class="btn" type="submit">Filtrar</button>
-    <a class="btn2" href="crear.php">+ Nuevo</a>
+    <div class="form-actions">
+      <button class="btn" type="submit">Filtrar</button>
+      <a class="btn2" href="crear.php">+ Nuevo</a>
+    </div>
   </form>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Cliente</th>
-      <th>Tipo</th>
-      <th>Fecha</th>
-      <th>Estado</th>
-      <th>Técnico</th>
-      <th>Costo</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach ($rows as $s): ?>
-      <tr>
-        <td><?php echo (int)$s["id_servicio"]; ?></td>
-        <td><?php echo htmlspecialchars($s["cliente"]); ?></td>
-        <td><?php echo htmlspecialchars($s["tipo"]); ?></td>
-        <td><?php echo htmlspecialchars($s["fecha"]); ?></td>
-        <td><?php echo htmlspecialchars($s["estado"]); ?></td>
-        <td><?php echo htmlspecialchars($s["tecnico"]); ?></td>
-        <td>$<?php echo htmlspecialchars($s["costo"]); ?></td>
-        <td>
-          <a href="editar.php?id=<?php echo (int)$s["id_servicio"]; ?>">Editar</a>
-          |
-          <a href="cambiar_estado.php?id=<?php echo (int)$s["id_servicio"]; ?>&estado=en_proceso">En proceso</a>
-          |
-          <a href="cambiar_estado.php?id=<?php echo (int)$s["id_servicio"]; ?>&estado=finalizado">Finalizar</a>
-          |
-          <a href="eliminar.php?id=<?php echo (int)$s["id_servicio"]; ?>"
-             onclick="return confirm('¿Cancelar este servicio?');">Cancelar</a>
-        </td>
-      </tr>
-    <?php endforeach; ?>
+<div class="table-card">
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Tipo</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Técnico</th>
+          <th>Costo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($rows as $s): ?>
+          <?php
+            $estadoKey = $s["estado"];
+            $estadoLabel = $estadoStyles[$estadoKey][0] ?? $estadoKey;
+            $estadoClass = $estadoStyles[$estadoKey][1] ?? "badge--info";
+          ?>
+          <tr>
+            <td><?php echo (int)$s["id_servicio"]; ?></td>
+            <td><?php echo htmlspecialchars($s["cliente"]); ?></td>
+            <td><?php echo htmlspecialchars($s["tipo"]); ?></td>
+            <td><?php echo htmlspecialchars($s["fecha"]); ?></td>
+            <td><span class="badge <?php echo $estadoClass; ?>"><?php echo htmlspecialchars($estadoLabel); ?></span></td>
+            <td><?php echo htmlspecialchars($s["tecnico"]); ?></td>
+            <td>$<?php echo htmlspecialchars($s["costo"]); ?></td>
+            <td>
+              <div class="table-actions">
+                <a href="editar.php?id=<?php echo (int)$s["id_servicio"]; ?>">Editar</a>
+                <a href="cambiar_estado.php?id=<?php echo (int)$s["id_servicio"]; ?>&estado=en_proceso">En proceso</a>
+                <a href="cambiar_estado.php?id=<?php echo (int)$s["id_servicio"]; ?>&estado=finalizado">Finalizar</a>
+                <a href="eliminar.php?id=<?php echo (int)$s["id_servicio"]; ?>"
+                   onclick="return confirm('¿Cancelar este servicio?');">Cancelar</a>
+              </div>
+            </td>
+          </tr>
+        <?php endforeach; ?>
 
-    <?php if (count($rows)===0): ?>
-      <tr><td colspan="8">Sin registros.</td></tr>
-    <?php endif; ?>
-  </tbody>
-</table>
+        <?php if (count($rows)===0): ?>
+          <tr><td colspan="8">Sin registros.</td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <?php require_once __DIR__ . "/../includes/footer.php"; ?>
